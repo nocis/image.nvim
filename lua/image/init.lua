@@ -201,6 +201,8 @@ api.setup = function(options)
     end,
   })
 
+  vim.api.nvim_create_user_command("SaveImage", require("image/save").save_nearby_image, {})
+
   -- setup autocommands
   local group = vim.api.nvim_create_augroup("image.nvim", { clear = true })
 
