@@ -31,31 +31,31 @@ backend.render = function(image, x, y, width, height)
   backend.state.images[image.id] = image
 end
 
-local _derender_with_sixel = function(image)
-  -- Currently not working...
-  -- Getting where the image was set to be created
-  local x = image.geometry.x
-  local y = image.geometry.y
-  -- Getting the cropped pixel geometry
-  local cropped = magick.load_image(image.cropped_path)
-  local pw = cropped:get_width()
-  local ph = cropped:get_height()
-  -- Constructing the sixel string
-  local sixel_header = "P;2;;q#0;2;0;0;0" -- Set color at index 0 to color RGB (0,0,0)
-  local blank_line = string.format("#0!%d@~", pw) -- Making a blank line
-  local blank_code = string.rep(blank_line, math.ceil(ph / 6))
-  local sixel_str = sixel_header .. blank_code .. "\\"
-
-  local f = assert(io.open("./clear_test.sixel", "wb"))
-  f:write(sixel_str)
-  f:close()
-
-  local render_str = "33;46m" .. sixel_str
-
-  _render_sixel_str(string.rep(" ", image.sixel_len), x, y)
-  _render_sixel_str(render_str, x, y)
-  image.is_rendered = false
-end
+--local _derender_with_sixel = function(image)
+--  -- Currently not working...
+--  -- Getting where the image was set to be created
+--  local x = image.geometry.x
+--  local y = image.geometry.y
+--  -- Getting the cropped pixel geometry
+--  local cropped = magick.load_image(image.cropped_path)
+--  local pw = cropped:get_width()
+--  local ph = cropped:get_height()
+--  -- Constructing the sixel string
+--  local sixel_header = "P;2;;q#0;2;0;0;0" -- Set color at index 0 to color RGB (0,0,0)
+--  local blank_line = string.format("#0!%d@~", pw) -- Making a blank line
+--  local blank_code = string.rep(blank_line, math.ceil(ph / 6))
+--  local sixel_str = sixel_header .. blank_code .. "\\"
+--
+--  local f = assert(io.open("./clear_test.sixel", "wb"))
+--  f:write(sixel_str)
+--  f:close()
+--
+--  local render_str = "33;46m" .. sixel_str
+--
+--  _render_sixel_str(string.rep(" ", image.sixel_len), x, y)
+--  _render_sixel_str(render_str, x, y)
+--  image.is_rendered = false
+--end
 
 backend.clear = function(image_id, shallow)
   vim.defer_fn(function()
