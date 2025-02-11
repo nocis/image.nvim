@@ -31,7 +31,7 @@
 ---@alias IntegrationOptions DocumentIntegrationOptions
 
 ---@class Options
----@field backend "kitty"|"ueberzug"
+---@field backend "kitty"|"ueberzug"|"sixel"
 ---@field integrations table<string, IntegrationOptions>
 ---@field max_width? number
 ---@field max_height? number
