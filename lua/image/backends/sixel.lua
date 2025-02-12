@@ -25,14 +25,16 @@ local _render_sixel_str = function(s, x, y)
 end
 
 backend.render = function(image, x, y, width, height)
-  local sixel_str = vim.fn.system(string.format("img2sixel -w %d -h %d %s", 10,10,image.cropped_path))
+  -- width is overflowed not sure why
+  local cropped = magick.load_image(image.cropped_path)
+  local pw = cropped:get_width()
+  local ph = cropped:get_height()
+  local aspect_ratio = pw/ph
+  
+  local sixel_str = vim.fn.system(string.format("img2sixel -w %d -h %d %s", height*aspect_ratio, height, image.cropped_path))
   --local sixel_str = vim.fn.system("img2sixel " .. image.cropped_path)
   vim.notify(
-                  string.format("img2sixel -w %d -h %d %s", 50,50,image.cropped_path),
-                  vim.log.levels.WARN
-                )
- vim.notify(
-                  string.format("rendered %s width %d height %d", image.is_rendered,width,height),
+                  string.format("img2sixel -w %d -h %d %s", height*aspect_ratio, height, image.cropped_path),
                   vim.log.levels.WARN
                 )
   if image.is_rendered ~= true then
