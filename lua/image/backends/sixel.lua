@@ -33,7 +33,7 @@ backend.render = function(image, x, y, width, height)
   local ph = cropped:get_height()
   local aspect_ratio = pw/ph
   
-  local sixel_str = vim.fn.system(string.format("img2sixel -w %d -h %d %s", height*aspect_ratio*5, height*5, image.cropped_path))
+  local sixel_str = vim.fn.system(string.format("img2sixel -w %d -h %d %s", height*aspect_ratio*20, height*20, image.cropped_path))
   --local sixel_str = vim.fn.system("img2sixel " .. image.cropped_path)
   vim.notify(
                   string.format("img2sixel -w %d -h %d %s", height*aspect_ratio, height, image.cropped_path),
@@ -88,7 +88,7 @@ backend.clear = function(image_id, shallow)
     -- geometry unable to provide correct x y coords here unless we reassign it at rendering stage 
     vim.notify("clear x:"..x .." y:".. y,vim.log.levels.WARN)
     vim.defer_fn(function()
-      backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y, x + 1))
+      backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y-1, x + 1))
     end, 50)
     -- Clear screen
     image.is_rendered = false
@@ -107,7 +107,7 @@ backend.clear = function(image_id, shallow)
       local y = image.geometry.y
       vim.notify("clear x:"..x .." y:".. y,vim.log.levels.WARN)
       vim.defer_fn(function()
-        backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y, x + 1))
+        backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y-1, x + 1))
       end, 50)
       -- Clear screen
       image.is_rendered = false
