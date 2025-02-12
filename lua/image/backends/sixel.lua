@@ -39,6 +39,10 @@ backend.render = function(image, x, y, width, height)
                   string.format("img2sixel -w %d -h %d %s", height*aspect_ratio, height, image.cropped_path),
                   vim.log.levels.WARN
                 )
+  vim.notify(
+                  "x:"..x .." y:".. y,
+                  vim.log.levels.WARN
+                )
   if image.is_rendered ~= true then
     _render_sixel_str(sixel_str, x, y)
     image.is_rendered = true
@@ -85,7 +89,7 @@ backend.clear = function(image_id, shallow)
     local x = image.geometry.x
     local y = image.geometry.y
      vim.notify(
-                  x .. y,
+                  "x:"..x .." y:".. y,
                   vim.log.levels.WARN
                 )
     vim.defer_fn(function()
