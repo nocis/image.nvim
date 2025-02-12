@@ -31,6 +31,10 @@ backend.render = function(image, x, y, width, height)
                   string.format("img2sixel -w %d -h %d %s", 50,50,image.cropped_path),
                   vim.log.levels.WARN
                 )
+ vim.notify(
+                  string.format("rendered %s width %d height %d", image.is_rendered,width,height),
+                  vim.log.levels.WARN
+                )
   if image.is_rendered ~= true then
     _render_sixel_str(sixel_str, x, y)
     image.is_rendered = true
