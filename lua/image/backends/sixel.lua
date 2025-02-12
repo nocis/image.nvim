@@ -1,5 +1,5 @@
 local magick = require("image/magick")
-
+local imgs = {}
 local uv = vim.uv
 if uv == nil then uv = vim.loop end
 
@@ -44,6 +44,7 @@ backend.render = function(image, x, y, width, height)
     _render_sixel_str(sixel_str, x, y)
     image.is_rendered = true
     backend.state.images[image.id] = image
+    imgs[image.id] = {x=x,y=y}
   end
 end
 
@@ -83,16 +84,19 @@ backend.clear = function(image_id, shallow)
                   image.cropped_path,
                   vim.log.levels.WARN
                 )
-    local x = image.geometry.x
-    local y = image.geometry.y
+    local x = imgs[image_id].x
+    local y = imgs[image_id].y
     -- geometry unable to provide correct x y coords here unless we reassign it at rendering stage 
     vim.notify("clear x:"..x .." y:".. y,vim.log.levels.WARN)
     vim.defer_fn(function()
-      backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y-1, x + 1))
+      backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y+1, x + 1))
     end, 50)
     -- Clear screen
     image.is_rendered = false
-    if not shallow then backend.state.images[image_id] = nil end
+    if not shallow then 
+      backend.state.images[image_id] = nil 
+      imgs[image.id] = nil
+    end
     return
   end
 
@@ -103,17 +107,20 @@ backend.clear = function(image_id, shallow)
                   image.cropped_path,
                   vim.log.levels.WARN
                 )
-      local x = image.geometry.x
-      local y = image.geometry.y
+      local x = imgs[id].x
+      local y = imgs[id].y
       vim.notify("clear x:"..x .." y:".. y,vim.log.levels.WARN)
       vim.defer_fn(function()
-        backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y-1, x + 1))
+        backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y+1, x + 1))
       end, 50)
       -- Clear screen
       image.is_rendered = false
     end
     
-    if not shallow then backend.state.images[id] = nil end
+    if not shallow then 
+      backend.state.images[id] = nil 
+      imgs[id] = nil
+    end
   end
 end
 
