@@ -20,7 +20,7 @@ end
 
 local _render_sixel_str = function(s, x, y)
   vim.defer_fn(function()
-    backend.stdout:write(string.format("\27[s\27[%d;%dH%s\27[u", y + 1, x + 1, s))
+    backend.stdout:write(string.format("\27[s\27[%d;%dH%s\27[#B\\\27[u", y + 1, x + 1, s))
   end, 50)
 end
 
