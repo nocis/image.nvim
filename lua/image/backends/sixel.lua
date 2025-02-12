@@ -74,6 +74,7 @@ end
 --end
 
 backend.clear = function(image_id, shallow)
+   if true then return end
   -- one
   if image_id then
     local image = backend.state.images[image_id]
