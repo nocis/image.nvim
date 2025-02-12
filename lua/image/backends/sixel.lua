@@ -69,32 +69,27 @@ end
 --end
 
 backend.clear = function(image_id, shallow)
-  vim.defer_fn(function()
-    vim.cmd("mode")
-  end, 50) -- clear everything
-
+  -- one
   if image_id then
-    for id, image in pairs(backend.state.images) do
-      if id ~= image_id then -- Rerender
-        local x = image.geometry.x
-        local y = image.geometry.y
-        local w = image.geometry.width
-        local h = image.geometry.height
-        backend.render(image, x, y, w, h)
-      else
-        image.is_rendered = false
-      end
-    end
+    local image = backend.state.images[image_id]
+    if not image then return end
+    vim.defer_fn(function()
+      backend.stdout:write('\033[2J\033[H')
+    end, 50)
+    # Clear screen
+    image.is_rendered = false
     if not shallow then backend.state.images[image_id] = nil end
-  else
-    for _, image in pairs(backend.state.images) do
-      image.is_rendered = false
-    end
-    if not shallow then
-      for id, _ in pairs(backend.state.images) do
-        backend.state.images[id] = nil
-      end
-    end
+    return
+  end
+
+  -- all
+  for id, image in pairs(backend.state.images) do
+    vim.defer_fn(function()
+      backend.stdout:write('\033[2J\033[H')
+    end, 50)
+    # Clear screen
+    image.is_rendered = false
+    if not shallow then backend.state.images[id] = nil end
   end
 end
 
