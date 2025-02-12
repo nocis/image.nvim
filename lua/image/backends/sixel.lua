@@ -85,7 +85,7 @@ backend.clear = function(image_id, shallow)
     local x = image.geometry.x
     local y = image.geometry.y
     vim.defer_fn(function()
-      backend.stdout:write(string.format("\27[s\27[%d;%dH\27[0K\27[u", y + 1, x + 1))
+      backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y + 1, x + 1))
     end, 50)
     -- Clear screen
     image.is_rendered = false
@@ -103,7 +103,7 @@ backend.clear = function(image_id, shallow)
       local x = image.geometry.x
       local y = image.geometry.y
       vim.defer_fn(function()
-        backend.stdout:write(string.format("\27[s\27[%d;%dH\27[0K\27[u", y + 1, x + 1))
+        backend.stdout:write(string.format("\27[s\27[%d;%dHtest\27[u", y + 1, x + 1))
       end, 50)
       -- Clear screen
       image.is_rendered = false
