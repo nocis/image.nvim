@@ -1,4 +1,4 @@
---local magick = require("image/magick")
+local magick = require("image/magick")
 
 local uv = vim.uv
 if uv == nil then uv = vim.loop end
