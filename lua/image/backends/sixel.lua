@@ -25,8 +25,8 @@ local _render_sixel_str = function(s, x, y)
 end
 
 backend.render = function(image, x, y, width, height)
-  --local sixel_str = vim.fn.system(string.format("img2sixel -w %d -h %d %s", width,height,image.cropped_path))
-  local sixel_str = vim.fn.system("img2sixel " .. image.cropped_path)
+  local sixel_str = vim.fn.system(string.format("img2sixel -w %d -h %d %s", 100,100,image.cropped_path))
+  --local sixel_str = vim.fn.system("img2sixel " .. image.cropped_path)
   vim.notify(
                   string.format("img2sixel -w %d -h %d %s", width,height,image.cropped_path),
                   vim.log.levels.WARN
