@@ -85,7 +85,7 @@ backend.clear = function(image_id, shallow)
   -- all
   for id, image in pairs(backend.state.images) do
     vim.defer_fn(function()
-      backend.stdout:write('\033[2J\033[H')
+      backend.stdout:write('\27[2J\27[H')
     end, 50)
     # Clear screen
     image.is_rendered = false
