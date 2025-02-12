@@ -77,8 +77,10 @@ backend.clear = function(image_id, shallow)
                   image.cropped_path,
                   vim.log.levels.WARN
                 )
+    local x = image.geometry.x
+    local y = image.geometry.y
     vim.defer_fn(function()
-      backend.stdout:write('\27[2J\27[H')
+      backend.stdout:write(string.format("\27[s\27[%d;%dH\27[2K\27[u", y + 1, x + 1))
     end, 50)
     -- Clear screen
     image.is_rendered = false
@@ -92,8 +94,10 @@ backend.clear = function(image_id, shallow)
                   image.cropped_path,
                   vim.log.levels.WARN
                 )
+    local x = image.geometry.x
+    local y = image.geometry.y
     vim.defer_fn(function()
-      backend.stdout:write('\27[2J\27[H')
+      backend.stdout:write(string.format("\27[s\27[%d;%dH\27[2K\27[u", y + 1, x + 1))
     end, 50)
     -- Clear screen
     image.is_rendered = false
