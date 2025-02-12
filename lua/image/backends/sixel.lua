@@ -25,7 +25,7 @@ local _render_sixel_str = function(s, x, y)
 end
 
 backend.render = function(image, x, y, width, height)
-  local sixel_str = vim.fn.system(string.format("img2sixel -w %s -h %s %s", width,height,image.cropped_path))
+  local sixel_str = vim.fn.system(string.format("img2sixel -w %d -h %d %s", width,height,image.cropped_path))
   _render_sixel_str(sixel_str, x, y)
   image.is_rendered = true
   backend.state.images[image.id] = image
