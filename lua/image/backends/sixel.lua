@@ -26,6 +26,7 @@ end
 
 backend.render = function(image, x, y, width, height)
   -- width is overflowed not sure why
+  -- and not sure why height is the line height
   local cropped = magick.load_image(image.cropped_path)
   local pw = cropped:get_width()
   local ph = cropped:get_height()
