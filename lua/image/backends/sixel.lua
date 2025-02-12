@@ -80,7 +80,7 @@ backend.clear = function(image_id, shallow)
     vim.defer_fn(function()
       backend.stdout:write('\27[2J\27[H')
     end, 50)
-    # Clear screen
+    -- Clear screen
     image.is_rendered = false
     if not shallow then backend.state.images[image_id] = nil end
     return
@@ -95,7 +95,7 @@ backend.clear = function(image_id, shallow)
     vim.defer_fn(function()
       backend.stdout:write('\27[2J\27[H')
     end, 50)
-    # Clear screen
+    -- Clear screen
     image.is_rendered = false
     if not shallow then backend.state.images[id] = nil end
   end
