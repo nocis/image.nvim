@@ -73,6 +73,7 @@ backend.clear = function(image_id, shallow)
   if image_id then
     local image = backend.state.images[image_id]
     if not image then return end
+    if not image.is_rendered then return end
     vim.notify(
                   image.cropped_path,
                   vim.log.levels.WARN
@@ -90,17 +91,20 @@ backend.clear = function(image_id, shallow)
 
   -- all
   for id, image in pairs(backend.state.images) do
-    vim.notify(
+    if image.is_rendered then 
+      vim.notify(
                   image.cropped_path,
                   vim.log.levels.WARN
                 )
-    local x = image.geometry.x
-    local y = image.geometry.y
-    vim.defer_fn(function()
-      backend.stdout:write(string.format("\27[s\27[%d;%dH\27[2K\27[u", y + 1, x + 1))
-    end, 50)
-    -- Clear screen
-    image.is_rendered = false
+      local x = image.geometry.x
+      local y = image.geometry.y
+      vim.defer_fn(function()
+        backend.stdout:write(string.format("\27[s\27[%d;%dH\27[2K\27[u", y + 1, x + 1))
+      end, 50)
+      -- Clear screen
+      image.is_rendered = false
+    end
+    
     if not shallow then backend.state.images[id] = nil end
   end
 end
